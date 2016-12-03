@@ -1,0 +1,68 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'jacoco'
+apply plugin: 'pmd'
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+
+group = 'com.israproductions'
+version = '1.0'
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+checkstyle {
+	toolVersion = '6.12.1'
+}
+
+checkstyleMain {
+	source = fileTree('.') {
+		excludes = ['.*/**', 'gradle*', 'build/**', '*.iml', '*.log', '**/*.jar']
+	}
+}
+
+repositories {
+    ivy {       
+		url "${System.properties['user.home']}/.ivy/"
+	}
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+  compile		'net.java.dev.jna:jna:4.1.0'
+  compile		'net.java.dev.jna:jna-platform:4.1.0'
+  testCompile	'org.testng:testng:6.8.21'
+}
+
+test {
+    useTestNG() {
+        useDefaultListeners = true
+    }   
+    reports.html.enabled = false
+    //ignoreFailures = findProperty("ignoreFailures") ?: false
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled true
+        html.enabled = true
+    }
+}
+
+task testJar(type: Jar, dependsOn: testClasses) {
+	classifier = 'tests'
+	from sourceSets.test.java
+}
+
+artifacts {
+	archives jar
+	archives testJar
+}
+
+uploadArchives {
+    repositories {
+	    ivy {       
+			url "${System.properties['user.home']}/.ivy/"
+		}
+    }
+}
