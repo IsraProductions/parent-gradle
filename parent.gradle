@@ -11,6 +11,13 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 
 checkstyle {
 	toolVersion = '6.12.1'
+	if(!configFile.exists())
+		configFile = new File('build/config/checkstyle/checkstyle.xml')
+	if(!configFile.exists()) {
+		configFile.getParentFile().mkdirs()
+		new URL('https://raw.githubusercontent.com/IsraProductions/checkstyle/master/checkstyle.xml')
+				.withInputStream { i -> configFile.withOutputStream { it << i } }
+	}
 }
 
 checkstyleMain {
@@ -28,9 +35,7 @@ repositories {
 }
 
 dependencies {
-  compile		'net.java.dev.jna:jna:4.1.0'
-  compile		'net.java.dev.jna:jna-platform:4.1.0'
-  testCompile	'org.testng:testng:6.8.21'
+	testCompile	'org.testng:testng:6.8.21'
 }
 
 test {
