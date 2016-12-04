@@ -4,6 +4,7 @@ apply plugin: 'jacoco'
 apply plugin: 'pmd'
 apply plugin: 'checkstyle'
 apply plugin: 'findbugs'
+apply plugin: 'maven-publish'
 
 group = 'com.israproductions'
 version = '1.0'
@@ -59,5 +60,22 @@ uploadArchives {
 	    ivy {       
 			url "${System.properties['user.home']}/.ivy/"
 		}
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+publishing {
+    repositories {
+        maven {
+            // change to point to your repo, e.g. http://my.org/repo
+            url "http://israproductions.com:8081/repository/maven-snapshots"
+	    authentication(userName: "admin", password: "admin123")
+        }
     }
 }
