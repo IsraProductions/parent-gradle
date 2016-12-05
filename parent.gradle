@@ -28,15 +28,15 @@ checkstyleMain {
 }
 
 repositories {
-    ivy {       
-		url "${System.properties['user.home']}/.ivy/"
-	}
     mavenLocal()
+    maven {
+          url "http://israproductions.com:8081/repository/maven-snapshots/"
+    }
     mavenCentral()
 }
 
 dependencies {
-	testCompile	'org.testng:testng:6.8.21'
+	testCompile	'org.testng:testng:6.9.13.6'
 }
 
 test {
@@ -44,7 +44,7 @@ test {
         useDefaultListeners = true
     }   
     reports.html.enabled = false
-    //ignoreFailures = findProperty("ignoreFailures") ?: false
+    ignoreFailures = findProperty("ignoreFailures") ?: false
 }
 
 jacocoTestReport {
@@ -55,14 +55,6 @@ jacocoTestReport {
     }
 }
 
-uploadArchives {
-    repositories {
-	    ivy {       
-			url "${System.properties['user.home']}/.ivy/"
-		}
-    }
-}
-
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -70,10 +62,10 @@ publishing {
         }
     }
 }
+
 publishing {
     repositories {
         maven {
-            // change to point to your repo, e.g. http://my.org/repo
             url "http://israproductions.com:8081/repository/maven-snapshots"
 	    credentials {
         	username "admin"
