@@ -75,7 +75,10 @@ publishing {
         maven {
             // change to point to your repo, e.g. http://my.org/repo
             url "http://israproductions.com:8081/repository/maven-snapshots"
-	    authentication(userName: "admin", password: "admin123")
+	    credentials {
+        	username "admin"
+        	password "admin123"
+            }
         }
     }
 }
