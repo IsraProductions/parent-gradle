@@ -7,7 +7,7 @@ apply plugin: 'findbugs'
 apply plugin: 'maven-publish'
 
 group = 'com.israproductions'
-version = '1.0'
+version = '1.0-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_1_8
 
 checkstyle {
